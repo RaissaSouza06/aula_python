@@ -7,6 +7,6 @@ perbranco = (branco*100)/total
 pernulo = (nulo*100)/total
 pervalido = (valido*100)/total
 
-print(f"Percentual de votos brancos: {perbranco:.2f}%")
+print(f"\nPercentual de votos brancos: {perbranco:.2f}%")
 print(f"Percentual de votos nulos: {pernulo:.2f}%")
-print(f"Percentual de votos validos: {pervalido:2f}%")
+print(f"Percentual de votos validos: {pervalido:.2f}%")
