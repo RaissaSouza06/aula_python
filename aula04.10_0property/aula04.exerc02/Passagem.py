@@ -75,7 +75,7 @@ class Passagem:
         self.__localViagem = input("Digite o nome do local de viagem: ")
         self.__data = input("Digite a data: ")
         self.__horario = input("Digite o horário: ")
-        self.__numpoltrona = input("Digite o número da poltrona: ")
+        self.__numpoltrona = int(input("Digite o número da poltrona: "))
 
     def mostrarDadosPassageiro(self):
         print("\nNome do passageiro: ", self.__nomePassageiro)
