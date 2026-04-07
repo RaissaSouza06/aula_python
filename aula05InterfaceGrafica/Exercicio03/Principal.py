@@ -3,7 +3,6 @@ from Media import Media
 class Principal:
     @staticmethod
     def main ():
-        #instanciar classe a plicação
         apl = Media()
         apl.executar()
 

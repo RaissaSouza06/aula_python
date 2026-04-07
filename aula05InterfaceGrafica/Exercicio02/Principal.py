@@ -3,7 +3,6 @@ from Soma import Soma
 class Principal:
     @staticmethod
     def main ():
-        #instanciar classe a plicação
         apl = Soma()
         apl.executar()
 

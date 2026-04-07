@@ -3,7 +3,6 @@ from Cadastro import Cadastro
 class Principal:
     @staticmethod
     def main ():
-        #instanciar classe a plicação
         apl = Cadastro()
         apl.executar()
 

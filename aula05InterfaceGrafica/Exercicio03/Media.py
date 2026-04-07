@@ -6,10 +6,10 @@ class Media:
         self.configurar_tela()
         self.criar_componentes()
 
-        self.__n1 = 0
-        self.__n2 = 0
-        self.__n3 = 0
-        self.__media = 0
+        self.__n1 = 0.0
+        self.__n2 = 0.0
+        self.__n3 = 0.0
+        self.__media = 0.0
 
     @property
     def _n1(self):
@@ -43,7 +43,6 @@ class Media:
     def _media(self, value):
         self.__media = value
 
-
     def configurar_tela(self):
         self.tela.title("Calculo Media")
         self.tela.configure(background="#02473b")
@@ -63,8 +62,7 @@ class Media:
         self.frame = Frame (self.tela, bg="#7ae9ae", padx=20, pady=20)
         self.frame.pack(expand=True)
 
-        self.titulo = Label(self.frame, text="Calculo Media")
-        self.titulo.grid(row=0, column=0, columnspan=2, pady=10)
+        Label(self.frame, text="Calculo Media", bg="#7ae9ae", fg="black", font=("Arial", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
 
         #n1
         Label(self.frame, text="Digite a primeira nota: ").grid(row=1,column=0,sticky="w",pady=5)

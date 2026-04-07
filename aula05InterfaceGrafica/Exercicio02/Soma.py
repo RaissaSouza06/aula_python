@@ -53,8 +53,7 @@ class Soma:
         self.frame = Frame (self.tela, bg="#0e254c", padx=20, pady=20)
         self.frame.pack(expand=True)
 
-        self.titulo = Label(self.frame, text="Calculo soma")
-        self.titulo.grid(row=0, column=0, columnspan=2, pady=10)
+        Label(self.frame, text="Calculo Soma", bg="#0e254c", fg="white", font=("Arial", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
 
         #n1
         Label(self.frame, text="Digite um número: ").grid(row=1,column=0,sticky="w",pady=5)
