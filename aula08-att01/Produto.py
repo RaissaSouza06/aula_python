@@ -21,7 +21,7 @@ class CadastroProdutos:
 
     def criar_componentes(self):
 
-        Label(self.tela, text="Cadastro de Produtos",font=("Arial", 30, "bold"),bg="#ffffff").place(x=200, y=50)
+        Label(self.tela, text="Cadastro de Produtos", font=("Arial", 30, "bold"), bg="#ffffff").place(x=200, y=50)
 
         Label(self.tela, text="Código:", bg="#ffffff").place(x=130, y=140)
         self.txt_codigo = Entry(self.tela, width=20)
@@ -33,7 +33,7 @@ class CadastroProdutos:
 
         Label(self.tela, text="Quantidade:", bg="#ffffff").place(x=450, y=170)
         self.txt_quantidade = Entry(self.tela, width=20)
-        self.txt_quantidade.place(x=480, y=170)
+        self.txt_quantidade.place(x=530, y=170)
 
         Label(self.tela, text="Preço:", bg="#ffffff").place(x=130, y=200)
         self.txt_preco = Entry(self.tela, width=20)
@@ -41,10 +41,10 @@ class CadastroProdutos:
 
         Label(self.tela, text="Total:", bg="#ffffff").place(x=450, y=200)
         self.txt_total = Entry(self.tela, width=25)
-        self.txt_total.place(x=480, y=200)
+        self.txt_total.place(x=530, y=200)
 
-        self.lbl_resultado = Label(self.tela, text="", bg="#ffffff")
-        self.lbl_resultado.place(x=490, y=410)
+        self.lbl_resultado = Label(self.tela, text="", bg="#ffffff", font=("Arial", 10, "italic"))
+        self.lbl_resultado.place(x=130, y=410)
 
         #CRIANDO OS BOTÕES
               
@@ -88,8 +88,7 @@ class CadastroProdutos:
             self.lbl_resultado.config(text="Erro ao salvar")
 
     def sair(self):
-        self.tela.destroy()
-        self.conn.close()
+        self.conexao.close()
         self.tela.destroy()
         sys.exit()
 

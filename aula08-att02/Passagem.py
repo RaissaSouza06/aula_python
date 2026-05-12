@@ -8,7 +8,7 @@ class CadastroPassagens:
         self.tela = Tk()
         self.tela.title("Exemplo MongoDB")
         self.tela.geometry("800x600")
-        self.tela.configure(background="#fff")
+        self.tela.configure(background="#2C3E50")
 
         #CRIAR BANCO DE DADOS MONGO
         self.conexao = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -23,12 +23,13 @@ class CadastroPassagens:
 
         Label(self.tela, text="Cadastro de Passagens",font=("Arial", 30, "bold"),bg="#ffffff").place(x=200, y=50)
 
+       # Campos de Entrada
         Label(self.tela, text="Nome:", bg="#ffffff").place(x=130, y=140)
-        self.txt_nome = Entry(self.tela, width=20)
+        self.txt_nome = Entry(self.tela, width=40)
         self.txt_nome.place(x=190, y=140)
 
         Label(self.tela, text="Telefone:", bg="#ffffff").place(x=130, y=170)
-        self.txt_telefone = Entry(self.tela, width=40)
+        self.txt_telefone = Entry(self.tela, width=20)
         self.txt_telefone.place(x=190, y=170)
 
         Label(self.tela, text="RG:", bg="#ffffff").place(x=450, y=170)
@@ -37,22 +38,22 @@ class CadastroPassagens:
 
         Label(self.tela, text="Local de viagem:", bg="#ffffff").place(x=130, y=200)
         self.txt_local = Entry(self.tela, width=20)
-        self.txt_local.place(x=190, y=200)
+        self.txt_local.place(x=230, y=200)
 
         Label(self.tela, text="Data:", bg="#ffffff").place(x=450, y=200)
-        self.txt_data = Entry(self.tela, width=25)
-        self.txt_data.place(x=480, y=200)
+        self.txt_data = Entry(self.tela, width=20)
+        self.txt_data.place(x=490, y=200)
 
         Label(self.tela, text="Horário:", bg="#ffffff").place(x=130, y=230)
         self.txt_horario = Entry(self.tela, width=20)
         self.txt_horario.place(x=190, y=230)
 
-        Label(self.tela, text="Número de poltronas:", bg="#ffffff").place(x=520, y=230)
+        Label(self.tela, text="Nº Poltrona:", bg="#ffffff").place(x=450, y=230)
         self.txt_numero = Entry(self.tela, width=20)
-        self.txt_numero.place(x=570, y=230)
+        self.txt_numero.place(x=530, y=230)
 
-        self.lbl_resultado = Label(self.tela, text="", bg="#ffffff")
-        self.lbl_resultado.place(x=490, y=410)
+        self.lbl_resultado = Label(self.tela, text="", bg="#ffffff", font=("Arial", 10, "bold"))
+        self.lbl_resultado.place(x=130, y=410)
 
         #CRIANDO OS BOTÕES
               
@@ -98,20 +99,18 @@ class CadastroPassagens:
             self.lbl_resultado.config(text="Erro ao salvar")
 
     def sair(self):
-        self.tela.destroy()
-        self.conn.close()
+        self.conexao.close()
         self.tela.destroy()
         sys.exit()
 
     def atualizar(self):
-        codigo = self.txt_codigo.get()
+        rg_busca = self.txt_rg.get()
 
         self.collection.update_one(
-            {"código": codigo},
+            {"RG": rg_busca},
             {"$set": {
                 "nome": self.txt_nome.get(),
                 "telefone": self.txt_telefone.get(),
-                "RG": self.txt_rg.get(),
                 "local": self.txt_local.get(),
                 "data": self.txt_data.get(),
                 "horario": self.txt_horario.get(),
@@ -123,14 +122,14 @@ class CadastroPassagens:
         self.lbl_resultado.config(text="Atualizado!")
 
     def excluir(self):
-        codigo = self.txt_codigo.get()
-        self.collection.delete_one({"código": codigo})
+        rg_busca = self.txt_rg.get()
+        self.collection.delete_one({"RG": rg_busca})
         self.limpar()
         self.lbl_resultado.config(text="Excluído!")
     
     def consultar(self):
-        codigo = self.txt_codigo.get()
-        resultado = self.collection.find_one({"código": codigo})
+        rg_busca = self.txt_rg.get()
+        resultado = self.collection.find_one({"RG": rg_busca})
 
         if resultado:
             self.txt_nome.insert(END, resultado["nome"])
@@ -144,7 +143,6 @@ class CadastroPassagens:
             self.lbl_resultado.config(text="Não encontrado")
 
     def limpar(self):
-        self.txt_codigo.delete(0, END)
         self.txt_nome.delete(0, END)
         self.txt_telefone.delete(0, END)
         self.txt_rg.delete(0, END)
