@@ -24,7 +24,6 @@ class TelaLogin:
 
     
     # CONFIGURAÇÃO DA TELA
-    
     def centralizar_tela(self):
         largura_screen = self.tela.winfo_screenwidth()
         altura_screen = self.tela.winfo_screenheight()
@@ -35,19 +34,11 @@ class TelaLogin:
         self.tela.resizable(False,False)
 
 
- 
-    # COMPONENTES
-   
-   
+   # COMPONENTES
     def carregar_icones(self):
-        diretorio = os.path.dirname(os.path.abspath(__file__))
-        try:
-            # Busca os ícones dentro da pasta att10/icones
-            self.foto_acesso = PhotoImage(file=os.path.join(diretorio, "icones", "logar.png"))
-            self.foto_sair = PhotoImage(file=os.path.join(diretorio, "icones", "sair.png"))
-        except:
-            self.foto_acesso = self.foto_sair = None
-            
+        self.foto_acesso = PhotoImage(file=r"icones\logar.png")
+        self.foto_sair = PhotoImage(file=r"icones\sair.png")
+   
     def criar_componentes(self):
 
         Label(self.tela, text="Usuário").place(x=50, y=60)
@@ -71,7 +62,6 @@ class TelaLogin:
 
     
     # FUNÇÕES
-   
     def validar_acesso(self):
         usuario = self.txt_usuario.get()
         senha = self.txt_senha.get()
@@ -85,11 +75,8 @@ class TelaLogin:
             )
 
     def abrir_menu(self):
-        diretorio_script = os.path.dirname(os.path.abspath(__file__))
-        caminho_menu = os.path.join(diretorio_script, "Menu.py")
-        
         self.tela.destroy()
-        subprocess.run([sys.executable, caminho_menu])
+        subprocess.run([sys.executable, "Menu.py"])
 
     def sair(self):
         resposta = messagebox.askquestion(
@@ -101,4 +88,4 @@ class TelaLogin:
             self.tela.destroy()
     
     def executar(self):
-        self.tela.mainloop()
+       self.tela.mainloop()

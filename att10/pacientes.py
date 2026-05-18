@@ -11,13 +11,15 @@ except:
     os.system(f'"{sys.executable}" -m pip install pymongo')
     import pymongo
 
+from PIL import Image, ImageTk
 
-class CadastroClientes:
+
+class CadastroPacientes:
 
     def __init__(self):
         self.tela = Tk()
         self.tela.title("Exemplo Mongo DB")
-        self.tela.configure(bg="#ffffff")
+        self.tela.configure(bg="#6daed1")
 
         self.largura = 700
         self.altura = 400
@@ -46,8 +48,8 @@ class CadastroClientes:
   
     def conectar_banco(self):
         self.cliente = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.db = self.cliente["exemplo"]
-        self.collection = self.db["clientes"]
+        self.db = self.cliente["hospital"]
+        self.collection = self.db["pacientes"]
 
     
     # COMPONENTES    
@@ -58,23 +60,18 @@ class CadastroClientes:
         self.criar_botoes()
 
     def criar_labels(self):
-        Label(
-            self.tela,
-            text="Cadastro de Clientes",
-            font=("Arial", 22, "bold"),
-            bg="#ffffff"
-        ).place(x=180, y=30)
+        Label(self.tela,text="Cadastro de Pacientes", font=("Arial", 22, "bold"), bg="#6daed1").place(x=180, y=30)
 
-        Label(self.tela, text="Código:", bg="#ffffff").place(x=130, y=100)
-        Label(self.tela, text="Nome:", bg="#ffffff").place(x=130, y=130)
-        Label(self.tela, text="CPF:", bg="#ffffff").place(x=450, y=130)
-        Label(self.tela, text="Idade:", bg="#ffffff").place(x=130, y=160)
-        Label(self.tela, text="Rua:", bg="#ffffff").place(x=450, y=160)
-        Label(self.tela, text="Bairro:", bg="#ffffff").place(x=130, y=190)
-        Label(self.tela, text="Estado:", bg="#ffffff").place(x=330, y=190)
-        Label(self.tela, text="Cidade:", bg="#ffffff").place(x=520, y=190)
+        Label(self.tela, text="Código:", bg="#6daed1").place(x=130, y=100)
+        Label(self.tela, text="Nome:", bg="#6daed1").place(x=130, y=130)
+        Label(self.tela, text="CPF:", bg="#6daed1").place(x=450, y=130)
+        Label(self.tela, text="Idade:", bg="#6daed1").place(x=130, y=160)
+        Label(self.tela, text="Rua:", bg="#6daed1").place(x=450, y=160)
+        Label(self.tela, text="Bairro:", bg="#6daed1").place(x=130, y=190)
+        Label(self.tela, text="Estado:", bg="#6daed1").place(x=330, y=190)
+        Label(self.tela, text="Cidade:", bg="#6daed1").place(x=520, y=190)
 
-        self.lbl_resultado = Label(self.tela, text="", bg="#ffffff")
+        self.lbl_resultado = Label(self.tela, text="", bg="#6daed1")
         self.lbl_resultado.place(x=450, y=300)
 
     def criar_campos(self):
@@ -109,11 +106,23 @@ class CadastroClientes:
     # ICONES
     
     def criar_icones(self):
-        self.foto_salvar = PhotoImage(file=r"icones\salvar.png")
-        self.foto_alterar = PhotoImage(file=r"icones\alterar.png")
-        self.foto_excluir = PhotoImage(file=r"icones\excluir.png")
-        self.foto_consultar = PhotoImage(file=r"icones\consultar.png")
-        self.foto_sair = PhotoImage(file=r"icones\sair.png")
+        diretorio = os.path.dirname(os.path.abspath(__file__))
+        pasta_icones = os.path.join(diretorio, "icones")
+
+        def ajustar_icone(nome_arquivo):
+            caminho = os.path.join(pasta_icones, nome_arquivo)
+            if os.path.exists(caminho):
+                img = Image.open(caminho).resize((32, 32)) # Redimensiona para 32x32 pixels
+                return ImageTk.PhotoImage(img)
+            else:
+                print(f"Erro: Não encontrei {nome_arquivo}")
+                return None
+
+        self.foto_salvar = ajustar_icone("salvar.png")
+        self.foto_alterar = ajustar_icone("alterar.png")
+        self.foto_excluir = ajustar_icone("excluir.png")
+        self.foto_consultar = ajustar_icone("consultar.png")
+        self.foto_sair = ajustar_icone("sair.png")
 
     
     # BOTOES
@@ -162,6 +171,7 @@ class CadastroClientes:
 
     
     # MÉTODOS
+
     
     def limpar(self):
         self.txt_codigo.delete(0, END)
@@ -174,10 +184,13 @@ class CadastroClientes:
         self.comboestado.set("")
 
     def dados(self):
+        idade_texto = self.txt_idade.get()
+        idade_final = int(idade_texto) if idade_texto.isdigit() else 0
+
         return {
             "código": self.txt_codigo.get(),
             "nome": self.txt_nome.get(),
-            "idade": int(self.txt_idade.get()),
+            "idade": idade_final,
             "cpf": self.txt_cpf.get(),
             "endereço": self.txt_end.get(),
             "bairro": self.txt_bairro.get(),
@@ -186,49 +199,67 @@ class CadastroClientes:
         }
 
     def salvar(self):
+        if not self.txt_codigo.get():
+            messagebox.showerror("Erro", "O campo Código é obrigatório!")
+            return
+            
         self.collection.insert_one(self.dados())
         self.limpar()
-        messagebox.showinfo("Sucesso", "Cliente salvo!")
+        messagebox.showinfo("Sucesso", "Paciente salvo!")
 
     def atualizar(self):
         codigo = self.txt_codigo.get()
+        if not codigo:
+            messagebox.showwarning("Aviso", "Digite o código do paciente para alterar.")
+            return
 
-        self.collection.update_one(
+        resultado = self.collection.update_one(
             {"código": codigo},
             {"$set": self.dados()}
         )
 
-        messagebox.showinfo("Sucesso", "Cliente atualizado!")
+        if resultado.matched_count > 0:
+            messagebox.showinfo("Sucesso", "Paciente atualizado!")
+        else:
+            messagebox.showwarning("Aviso", "Código não encontrado para atualizar.")
 
     def apagar(self):
         codigo = self.txt_codigo.get()
+        if not codigo:
+            messagebox.showwarning("Aviso", "Digite o código do paciente para excluir.")
+            return
 
-        self.collection.delete_one({"código": codigo})
+        resultado = self.collection.delete_one({"código": codigo})
 
-        self.limpar()
-        messagebox.showinfo("Sucesso", "Cliente excluído!")
+        if resultado.deleted_count > 0:
+            self.limpar()
+            messagebox.showinfo("Sucesso", "Paciente excluído!")
+        else:
+            messagebox.showwarning("Aviso", "Paciente não encontrado para exclusão.")
 
     def consultar(self):
         codigo = self.txt_codigo.get()
+        if not codigo:
+            messagebox.showwarning("Aviso", "Digite o código para buscar.")
+            return
 
         resultado = self.collection.find_one({"código": codigo})
 
         if resultado:
             self.limpar()
 
-            self.txt_codigo.insert(0, resultado["código"])
-            self.txt_nome.insert(0, resultado["nome"])
-            self.txt_cpf.insert(0, resultado["cpf"])
-            self.txt_idade.insert(0, resultado["idade"])
-            self.txt_end.insert(0, resultado["endereço"])
-            self.txt_bairro.insert(0, resultado["bairro"])
-            self.txt_cidade.insert(0, resultado["cidade"])
-            self.comboestado.set(resultado["estado"])
-
+            self.txt_codigo.insert(0, resultado.get("código", ""))
+            self.txt_nome.insert(0, resultado.get("nome", ""))
+            self.txt_cpf.insert(0, resultado.get("cpf", ""))
+            self.txt_idade.insert(0, resultado.get("idade", ""))
+            self.txt_end.insert(0, resultado.get("endereço", ""))
+            self.txt_bairro.insert(0, resultado.get("bairro", ""))
+            self.txt_cidade.insert(0, resultado.get("cidade", ""))
+            self.comboestado.set(resultado.get("estado", ""))
         else:
-            messagebox.showwarning("Aviso", "Cliente não encontrado")
+            messagebox.showwarning("Aviso", "Paciente não encontrado.") # Corrigido para Paciente
 
 
 # EXECUTAR
 if __name__ == "__main__":
-    CadastroClientes()
+    CadastroPacientes()
