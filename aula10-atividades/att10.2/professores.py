@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk, filedialog, messagebox
+from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
 import os 
 import sys 
@@ -63,23 +63,23 @@ class CadastroProfessores:
         Label(self.tela, text="Cadastro de Professores", font=("Arial", 16, "bold"), bg="#7a1717", fg="white").place(x=130, y=15)
         
         Label(self.tela, text="Código:", bg="#7a1717", fg="white").place(x=130, y=70)
-        Label(self.tela, text="Nome Professor:", bg="#7a1717", fg="white").place(x=130, y=110)
+        Label(self.tela, text="Nome do Professor:", bg="#7a1717", fg="white").place(x=130, y=110)
         Label(self.tela, text="Disciplina Lecionada:", bg="#7a1717", fg="white").place(x=130, y=150)
-        Label(self.tela, text="Quantidade aulas por semana:", bg="#7a1717", fg="white").place(x=130, y=190)
-        Label(self.tela, text="Formação:", bg="#7a1717", fg="white").place(x=130, y=190)
+        Label(self.tela, text="Quantidade de aulas por semana:", bg="#7a1717", fg="white").place(x=130, y=190)
+        Label(self.tela, text="Formação:", bg="#7a1717", fg="white").place(x=130, y=230)
 
     def criar_campos(self):
         self.txt_codigo = Entry(self.tela, width=10)
-        self.txt_nome = Entry(self.tela, width=50)
-        self.txt_disciplina = Entry(self.tela, width=50)
+        self.txt_nome = Entry(self.tela, width=42)
+        self.txt_disciplina = Entry(self.tela, width=42)
         self.txt_qtd = Entry(self.tela, width=15)
-        self.txt_form = Entry(self.tela, width=15)
+        self.txt_form = Entry(self.tela, width=25)
 
-        self.txt_codigo.place(x=240, y=70)
-        self.txt_nome.place(x=240, y=110)
-        self.txt_disciplina.place(x=240, y=150)
-        self.txt_qtd.place(x=240, y=190)
-        self.txt_form.place(x=240, y=190)
+        self.txt_codigo.place(x=320, y=70)
+        self.txt_nome.place(x=320, y=110)
+        self.txt_disciplina.place(x=320, y=150)
+        self.txt_qtd.place(x=320, y=190)
+        self.txt_form.place(x=320, y=230)
 
 
     def criar_botoes(self):
@@ -97,22 +97,21 @@ class CadastroProfessores:
         self.foto_excluir = ajustar_icone("excluir.png")
         self.foto_alterar = ajustar_icone("alterar.png")
         self.foto_consultar = ajustar_icone("consultar.png")
-        self.foto_sair = ajustar_icone("sair.png")
+        self.foto_sair = ajustar_icone("logout.png")
 
         self.btn_salvar = Button(self.tela, text="Salvar", image=self.foto_salvar, compound=TOP, command=self.salvar)
         self.btn_excluir = Button(self.tela, text="Excluir", image=self.foto_excluir, compound=TOP, command=self.apagar)
         self.btn_alterar = Button(self.tela, text="Alterar", image=self.foto_alterar, compound=TOP, command=self.atualizar)
         self.btn_consultar = Button(self.tela, text="Consultar", image=self.foto_consultar, compound=TOP, command=self.consultar)
-        self.btn_sair = Button(self.tela, text="Sair", image=self.foto_sair, compound=RIGHT, command=self.tela.destroy)
+        self.btn_sair = Button(self.tela, text="Sair", image=self.foto_sair, compound=TOP, command=self.tela.destroy)
 
         self.btn_salvar.place(x=130, y=310)
         self.btn_excluir.place(x=210, y=310)
         self.btn_alterar.place(x=290, y=310)
         self.btn_consultar.place(x=370, y=310)
-        self.btn_sair.place(x=600, y=310)
+        self.btn_sair.place(x=460, y=310)
     
     # FUNÇÕES
-
     def escolher_imagem(self):
         caminho = filedialog.askopenfilename(
             initialdir=self.pasta_inicial,
@@ -137,7 +136,6 @@ class CadastroProfessores:
             self.lbl_imagem = Label(self.tela, image=imagem_tk)
             self.lbl_imagem.image = imagem_tk
             self.lbl_imagem.place(x=10, y=50)
-
   
 
     def limpar(self):
@@ -165,34 +163,34 @@ class CadastroProfessores:
         
         self.collection.insert_one(self.dados())
         self.limpar()
-        messagebox.showinfo("Sucesso", "Consulta salva com sucesso!")
+        messagebox.showinfo("Sucesso", "Professor salvo com sucesso!")
 
     def atualizar(self):
         codigo = self.txt_codigo.get()
         if not codigo:
-            messagebox.showwarning("Aviso", "Digite o código da consulta que deseja alterar.")
+            messagebox.showwarning("Aviso", "Digite o código do professor que deseja alterar.")
             return
 
         resultado = self.collection.update_one({"codigo": codigo}, {"$set": self.dados()})
         
         if resultado.matched_count > 0:
-            messagebox.showinfo("Sucesso", "Consulta atualizada com sucesso!")
+            messagebox.showinfo("Sucesso", "Professpr atualizado com sucesso!")
         else:
             messagebox.showwarning("Aviso", "Código não encontrado para atualizar.")
 
     def apagar(self):
         codigo = self.txt_codigo.get()
         if not codigo:
-            messagebox.showwarning("Aviso", "Digite o código da consulta que deseja excluir.")
+            messagebox.showwarning("Aviso", "Digite o código do professor que deseja excluir.")
             return
 
         resultado = self.collection.delete_one({"codigo": codigo})
         
         if resultado.deleted_count > 0:
             self.limpar()
-            messagebox.showinfo("Sucesso", "Consulta excluída com sucesso!")
+            messagebox.showinfo("Sucesso", "Professor excluído com sucesso!")
         else:
-            messagebox.showwarning("Aviso", "Consulta não encontrada para exclusão.")
+            messagebox.showwarning("Aviso", "Professor não encontrado para exclusão.")
 
     def consultar(self):
         codigo = self.txt_codigo.get()
@@ -205,11 +203,12 @@ class CadastroProfessores:
         if resultado:
             self.limpar()
             self.txt_codigo.insert(0, resultado.get("codigo", ""))
-            self.txt_nomeM.insert(0, resultado.get("medico", ""))
-            self.txt_nomeP.insert(0, resultado.get("paciente", ""))
-            self.txt_data.insert(0, resultado.get("data", ""))
+            self.txt_nome.insert(0, resultado.get("nome", ""))
+            self.txt_disciplina.insert(0, resultado.get("disciplina", ""))
+            self.txt_qtd.insert(0, resultado.get("quantidade", ""))
+            self.txt_form.insert(0, resultado.get("formacao", ""))
         else:
-            messagebox.showwarning("Aviso", "Consulta não encontrada.")
+            messagebox.showwarning("Aviso", "Professor não encontrado.")
 
 
 # EXECUTAR

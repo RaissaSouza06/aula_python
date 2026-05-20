@@ -10,7 +10,7 @@ class TelaLogin:
     def __init__(self):
         self.tela = Tk()
         self.tela.title("Acesso ao Sistema")
-        self.tela.configure(background="#195c56")
+        self.tela.configure(background="#e698c8")
 
         self.largura = 400
         self.altura = 200
@@ -37,13 +37,11 @@ class TelaLogin:
 
  
     # COMPONENTES   
-# Certifique-se de que está exatamente assim, com a indentação correta:
     def carregar_icones(self):
         diretorio = os.path.dirname(os.path.abspath(__file__))
         caminho_login = os.path.join(diretorio, "icones", "login.png")
         caminho_sair = os.path.join(diretorio, "icones", "exit.png")
         
-        # O print PRECISA ficar aqui dentro, após as variáveis serem criadas
         print("Buscando login em:", caminho_login) 
         
         try:
@@ -54,8 +52,8 @@ class TelaLogin:
             self.foto_acesso = self.foto_sair = None
             
     def criar_componentes(self):
-        Label(self.tela, text="Usuário").place(x=50, y=60)
-        Label(self.tela, text="Senha").place(x=50, y=100)
+        Label(self.tela, text="Usuário", bg="#e698c8", fg="#000000").place(x=50, y=60)
+        Label(self.tela, text="Senha", bg="#e698c8", fg="#000000").place(x=50, y=100)
 
         self.txt_usuario = Entry(self.tela, width=20)
         self.txt_usuario.place(x=100, y=60)

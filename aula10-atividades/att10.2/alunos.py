@@ -1,6 +1,5 @@
 from tkinter import *
-from tkinter import ttk, messagebox
-import tkinter as tk
+from tkinter import filedialog, messagebox
 import sys
 import os
 
@@ -65,7 +64,7 @@ class CadastroAlunos:
         Label(self.tela, text="Nome:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=50, y=140)
         Label(self.tela, text="Endereço:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=50, y=180)
         
-        Label(self.tela, text="Data Nasc.:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=420, y=140)
+        Label(self.tela, text="Data Nasc:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=420, y=140)
         Label(self.tela, text="Telefone:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=420, y=180)
 
         self.lbl_resultado = Label(self.tela, text="", bg="#590e5e", fg="white")
@@ -163,8 +162,8 @@ class CadastroAlunos:
     def dados(self):
         return {
             "codigo": self.txt_codigo.get(),
-            "nome": self.txt_nome.get(),
-            "data": self.txt_data.get(),
+            "nomealuno": self.txt_nome.get(),
+            "dataNascimento": self.txt_data.get(),
             "endereco": self.txt_endereco.get(),
             "telefone": self.txt_tel.get(),
         }
@@ -220,8 +219,8 @@ class CadastroAlunos:
             self.limpar()
 
             self.txt_codigo.insert(0, resultado.get("codigo", ""))
-            self.txt_nome.insert(0, resultado.get("nome", ""))
-            self.txt_data.insert(0, resultado.get("data", ""))
+            self.txt_nome.insert(0, resultado.get("nomeAluno", ""))
+            self.txt_data.insert(0, resultado.get("dataNascimento", ""))
             self.txt_endereco.insert(0, resultado.get("endereco", ""))
             self.txt_tel.insert(0, resultado.get("telefone", ""))
         else:
