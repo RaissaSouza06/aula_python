@@ -58,31 +58,32 @@ class CadastroNotas:
    
 
     def criar_labels(self):
-        Label(self.tela, text="Cadastro de Notas", font=("Arial", 16, "bold"), bg="#6daed1").place(x=130, y=15)
-        Label(self.tela, text="Código:", bg="#6daed1").place(x=130, y=70)
-        Label(self.tela, text="Nome do Aluno:", bg="#6daed1").place(x=130, y=110)
-        Label(self.tela, text="Nota 1:", bg="#6daed1").place(x=130, y=110)
-        Label(self.tela, text="Nota 2:", bg="#6daed1").place(x=130, y=150)
-        Label(self.tela, text="Nota 3:", bg="#6daed1").place(x=130, y=190)
-        Label(self.tela, text="Nota 4:", bg="#6daed1").place(x=130, y=190)
-        Label(self.tela, text="Média:", bg="#6daed1").place(x=130, y=190)
+        Label(self.tela, text="Cadastro de Notas", font=("Arial", 16, "bold"), bg="#246942", fg="white").place(x=130, y=15)
+        Label(self.tela, text="Código:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=130, y=70)
+        Label(self.tela, text="Nome do Aluno:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=130, y=110)
+        Label(self.tela, text="Nota 1:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=130, y=150)
+        Label(self.tela, text="Nota 2:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=130, y=190)
+        Label(self.tela, text="Nota 3:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=380, y=150)
+        Label(self.tela, text="Nota 4:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=380, y=190)
+        Label(self.tela, text="Média Calculada:", bg="#246942", fg="white", font=("Arial", 10, "bold")).place(x=130, y=240)
 
     def criar_campos(self):
-        self.txt_codigo = Entry(self.tela, width=10)
-        self.txt_nome = Entry(self.tela, width=50)
-        self.txt_n1 = Entry(self.tela, width=50)
-        self.txt_n2 = Entry(self.tela, width=15)
-        self.txt_n3 = Entry(self.tela, width=15)
-        self.txt_n4 = Entry(self.tela, width=15)
-        self.txt_media = Entry(self.tela, width=15)
+        self.txt_codigo = Entry(self.tela, width=15, font=("Arial", 10))
+        self.txt_nome = Entry(self.tela, width=45, font=("Arial", 10))
+        self.txt_n1 = Entry(self.tela, width=10, font=("Arial", 10))
+        self.txt_n2 = Entry(self.tela, width=10, font=("Arial", 10))
+        self.txt_n3 = Entry(self.tela, width=10, font=("Arial", 10))
+        self.txt_n4 = Entry(self.tela, width=10, font=("Arial", 10))
+        
+        self.txt_media = Entry(self.tela, width=10, font=("Arial", 10, "bold"), state="readonly")
 
-        self.txt_codigo.place(x=240, y=70)
-        self.txt_nome.place(x=240, y=110)
-        self.txt_n1.place(x=240, y=150)
-        self.txt_n2.place(x=240, y=190)
-        self.txt_n3.place(x=240, y=190)
-        self.txt_n4.place(x=240, y=190)
-        self.txt_media.place(x=240, y=190)
+        self.txt_codigo.place(x=260, y=70)
+        self.txt_nome.place(x=260, y=110)
+        self.txt_n1.place(x=260, y=150)
+        self.txt_n2.place(x=260, y=190)
+        self.txt_n3.place(x=450, y=150)
+        self.txt_n4.place(x=450, y=190)
+        self.txt_media.place(x=260, y=240)
 
 
     def criar_botoes(self):
@@ -98,43 +99,15 @@ class CadastroNotas:
 
         self.foto_calcular = ajustar_icone("calcular.png")
         self.foto_ver = ajustar_icone("ver.png")
-        self.foto_sair = ajustar_icone("logout.png")
+        self.foto_sair = ajustar_icone("exitt.png")
 
-        self.btn_calcular = Button(self.tela, text="Calcular", image=self.foto_calcular, compound=TOP, command=self.salvar)
-        self.btn_ver= Button(self.tela, text="Ver", image=self.foto_ver, compound=TOP, command=self.apagar)
-        self.btn_sair = Button(self.tela, text="Sair", image=self.foto_sair, compound=RIGHT, command=self.tela.destroy)
-
+        self.btn_calcular = Button(self.tela, text="Calcular Média", image=self.foto_calcular, compound=TOP, command=self.calcularMedia)
+        self.btn_ver= Button(self.tela, text="Ver Média", image=self.foto_ver, compound=TOP, command=self.mostrarMedia)
+        self.btn_sair = Button(self.tela, text="Sair", image=self.foto_sair, compound=TOP, command=self.tela.destroy)
+        
         self.btn_calcular.place(x=130, y=310)
-        self.btn_ver.place(x=210, y=310)
-        self.btn_sair.place(x=300, y=310)
-    
-    # # FUNÇÕES
-    # def escolher_imagem(self):
-    #     caminho = filedialog.askopenfilename(
-    #         initialdir=self.pasta_inicial,
-    #         title="Escolha uma imagem",
-    #         filetypes=(
-    #             ("Arquivos de imagem", "*.jpg;*.jpeg;*.png"),
-    #             ("Todos os arquivos", "*.*")
-    #         )
-    #     )
-
-        # if caminho:
-        #     imagem = Image.open(caminho)
-        #     largura, altura = imagem.size
-
-        #     if largura > 150:
-        #         proporcao = largura / 150
-        #         nova_altura = int(altura / proporcao)
-        #         imagem = imagem.resize((110, nova_altura))
-
-        #     imagem_tk = ImageTk.PhotoImage(imagem)
-
-        #     self.lbl_imagem = Label(self.tela, image=imagem_tk)
-        #     self.lbl_imagem.image = imagem_tk
-        #     self.lbl_imagem.place(x=10, y=50)
-
-  
+        self.btn_ver.place(x=280, y=310)
+        self.btn_sair.place(x=410, y=310)
 
     def limpar(self):
         self.txt_codigo.delete(0, END)
@@ -143,75 +116,74 @@ class CadastroNotas:
         self.txt_n2.delete(0, END)
         self.txt_n3.delete(0, END)
         self.txt_n4.delete(0, END)
+        
+        self.txt_media.config(state="normal")
         self.txt_media.delete(0, END)
+        self.txt_media.config(state="readonly")
 
-    def dados(self):
-        return {
-            "codigo": self.txt_codigo.get(),
-            "nomeAluno": self.txt_nome.get(),
-            "nota1": self.txt_n1.get(),
-            "nota2": self.txt_n2.get(),
-            "nota3": self.txt_n3.get(),
-            "nota4": self.txt_n4.get(),
-            "media": self.txt_media.get(),
-        }
 
-    def salvar(self):
+    def calcularMedia(self):
         if not self.txt_codigo.get():
             messagebox.showerror("Erro", "O código é obrigatório!")
             return
-        
-        self.collection.insert_one(self.dados())
+
+        try:
+            codigo = int(self.txt_codigo.get())
+            nome = str(self.txt_nome.get())
+            n1 = float(self.txt_n1.get())
+            n2 = float(self.txt_n2.get())
+            n3 = float(self.txt_n3.get())
+            n4 = float(self.txt_n4.get())
+        except ValueError:
+            messagebox.showerror("Erro", "Código deve ser Inteiro e Notas devem ser Decimais (Use ponto ex: 7.5).")
+            return
+
+        media_final = (n1 + n2 + n3 + n4) / 4
+
+        self.txt_media.config(state="normal")
+        self.txt_media.delete(0, END)
+        self.txt_media.insert(0, f"{media_final:.2f}")
+        self.txt_media.config(state="readonly")
+
+        dados_notas = {
+            "codigo": codigo,
+            "nomeAluno": nome,
+            "nota1": n1,
+            "nota2": n2,
+            "nota3": n3,
+            "nota4": n4,
+            "media": media_final
+        }
+
+        self.collection.update_one({"codigo": codigo}, {"$set": dados_notas}, upsert=True)
+        messagebox.showinfo("Sucesso", f"Média calculada e salva para {nome}!")
         self.limpar()
-        messagebox.showinfo("Sucesso", "Nota salva com sucesso!")
 
-    def atualizar(self):
-        codigo = self.txt_codigo.get()
-        if not codigo:
-            messagebox.showwarning("Aviso", "Digite o código da nota que deseja alterar.")
-            return
 
-        resultado = self.collection.update_one({"codigo": codigo}, {"$set": self.dados()})
-        
-        if resultado.matched_count > 0:
-            messagebox.showinfo("Sucesso", "Nota atualizada com sucesso!")
-        else:
-            messagebox.showwarning("Aviso", "Código não encontrado para atualizar.")
-
-    def apagar(self):
-        codigo = self.txt_codigo.get()
-        if not codigo:
-            messagebox.showwarning("Aviso", "Digite o código da nota que deseja excluir.")
-            return
-
-        resultado = self.collection.delete_one({"codigo": codigo})
-        
-        if resultado.deleted_count > 0:
-            self.limpar()
-            messagebox.showinfo("Sucesso", "Nota excluída com sucesso!")
-        else:
-            messagebox.showwarning("Aviso", "Nota não encontrada para exclusão.")
-
-    def consultar(self):
-        codigo = self.txt_codigo.get()
-        if not codigo:
-            messagebox.showwarning("Aviso", "Digite o código para buscar.")
+    def mostrarMedia(self):
+        try:
+            codigo = int(self.txt_codigo.get())
+        except ValueError:
+            messagebox.showwarning("Aviso", "Digite um código numérico válido para buscar.")
             return
 
         resultado = self.collection.find_one({"codigo": codigo})
         
         if resultado:
             self.limpar()
-            self.txt_codigo.insert(0, resultado.get("codigo", ""))
-            self.txt_nome.insert(0, resultado.get("nomeAluno", ""))
-            self.txt_n1.insert(0, resultado.get("n1", ""))
-            self.txt_n2.insert(0, resultado.get("n2", ""))
-            self.txt_n3.insert(0, resultado.get("n3", ""))
-            self.txt_24.insert(0, resultado.get("n4", ""))
-            self.txt_media.insert(0, resultado.get("media", ""))
+            
+            self.txt_codigo.insert(0, str(resultado.get("codigo", "")))
+            self.txt_nome.insert(0, str(resultado.get("nomeAluno", "")))
+            self.txt_n1.insert(0, str(resultado.get("nota1", "")))
+            self.txt_n2.insert(0, str(resultado.get("nota2", "")))
+            self.txt_n3.insert(0, str(resultado.get("nota3", "")))
+            self.txt_n4.insert(0, str(resultado.get("nota4", "")))
+            
+            self.txt_media.config(state="normal")
+            self.txt_media.insert(0, f"{resultado.get('media', 0.0):.2f}")
+            self.txt_media.config(state="readonly")
         else:
-            messagebox.showwarning("Aviso", "Nota não encontrado.")
-
+            messagebox.showwarning("Aviso", "Registro de notas não encontrado.")
 
 # EXECUTAR
 if __name__ == "__main__":

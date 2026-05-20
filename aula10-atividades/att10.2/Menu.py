@@ -4,7 +4,6 @@ import subprocess
 import sys
 import os
 
-# Instale a biblioteca Pillow caso de erro
 try:
     from PIL import Image, ImageTk
 except:
@@ -32,7 +31,6 @@ class TelaMenuSistema:
 
     # CENTRALIZAR TELA   
     def centralizar_tela(self):
-            
         largura_screen = self.tela.winfo_screenwidth()
         altura_screen = self.tela.winfo_screenheight()
         posx = largura_screen/2 - self.largura/2
@@ -54,7 +52,6 @@ class TelaMenuSistema:
 
     # CRIAR MENU   
     def criar_menu(self):
-        
         barra_menus = Menu(self.tela)
         opcoes_menus_arquivos = Menu(barra_menus)
         opçoes_menus_gestao = Menu(barra_menus)
@@ -70,7 +67,6 @@ class TelaMenuSistema:
 
         opcoes_menus_arquivos.add_separator()
         opcoes_menus_arquivos.add_command(label="Sair", command=self.tela.quit)
-
 
         barra_menus.add_cascade(label="Gestão", menu=opçoes_menus_gestao)
         opçoes_menus_gestao.add_command(label="Alunos", command=self.abrir_alunos)
@@ -97,14 +93,11 @@ class TelaMenuSistema:
     # BOTÕES   
     def criar_botoes(self):
         estilo = {"bg": "white", "compound": "top", "relief": "flat", "pady": 5}
-
-        # Botões posicionados no topo (y=40) como na imagem de referência
         Button(self.tela, text="Notas", image=self.ic_notas, command=self.abrir_notas, bg="#cddeea").place(x=150, y=40)
         Button(self.tela, text="Alunos", image=self.ic_alunos, command=self.abrir_alunos, bg="#cddeea").place(x=380, y=40)
         Button(self.tela, text="Professores", image=self.ic_professores, command=self.abrir_professores, bg="#cddeea").place(x=610, y=40)
         Button(self.tela, text="Logout", image=self.ic_logout, command=self.logout, bg="#cddeea").place(x=840, y=40)
 
-        # Logo pequena no canto inferior
         Label(self.tela, text="SISTEMA ESCOLA", image=self.ic_sistema, compound="top", 
               font=("Arial", 8, "bold"), bg="white").place(x=880, y=620)
 
