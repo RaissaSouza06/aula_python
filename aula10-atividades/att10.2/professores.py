@@ -12,11 +12,11 @@ except:
 
 
 
-class CadastroConsultas:
+class CadastroProfessores:
     def __init__(self):
         self.tela = Tk()
-        self.tela.title("Cadastro de consultas")
-        self.tela.configure(bg="#6daed1")
+        self.tela.title("Cadastro de Professores")
+        self.tela.configure(bg="#7a1717")
 
 
         self.largura = 700
@@ -32,7 +32,6 @@ class CadastroConsultas:
 
    
     # CONFIGURAÇÕES DA TELA
-
     def centralizar_tela(self):
       
         largura_screen = self.tela.winfo_screenwidth()
@@ -45,9 +44,9 @@ class CadastroConsultas:
 
     def conectar_banco(self):
         try:
-            self.cliente = pymongo.MongoClient("mongodb://localhost:27017/")
-            self.db = self.cliente["hospital"] 
-            self.collection = self.db["consultas"]
+            self.conexao = pymongo.MongoClient("mongodb://localhost:27017/")
+            self.db = self.conexao["escola"] 
+            self.collection = self.db["professores"]
         except Exception as e:
             print(f"Erro ao conectar no MongoDB: {e}")
 
@@ -61,24 +60,27 @@ class CadastroConsultas:
    
 
     def criar_labels(self):
-        Label(self.tela, text="Cadastro de Consultas", font=("Arial", 16, "bold"), bg="#6daed1").place(x=130, y=15)
+        Label(self.tela, text="Cadastro de Professores", font=("Arial", 16, "bold"), bg="#7a1717", fg="white").place(x=130, y=15)
         
-        Label(self.tela, text="Código:", bg="#6daed1").place(x=130, y=70)
-        Label(self.tela, text="Nome Médico:", bg="#6daed1").place(x=130, y=110)
-        Label(self.tela, text="Nome Paciente:", bg="#6daed1").place(x=130, y=150)
-        Label(self.tela, text="Data Consulta:", bg="#6daed1").place(x=130, y=190)
+        Label(self.tela, text="Código:", bg="#7a1717", fg="white").place(x=130, y=70)
+        Label(self.tela, text="Nome Professor:", bg="#7a1717", fg="white").place(x=130, y=110)
+        Label(self.tela, text="Disciplina Lecionada:", bg="#7a1717", fg="white").place(x=130, y=150)
+        Label(self.tela, text="Quantidade aulas por semana:", bg="#7a1717", fg="white").place(x=130, y=190)
+        Label(self.tela, text="Formação:", bg="#7a1717", fg="white").place(x=130, y=190)
 
     def criar_campos(self):
         self.txt_codigo = Entry(self.tela, width=10)
-        self.txt_nomeM = Entry(self.tela, width=50)
-        self.txt_nomeP = Entry(self.tela, width=50)
-        self.txt_data = Entry(self.tela, width=15)
+        self.txt_nome = Entry(self.tela, width=50)
+        self.txt_disciplina = Entry(self.tela, width=50)
+        self.txt_qtd = Entry(self.tela, width=15)
+        self.txt_form = Entry(self.tela, width=15)
 
         self.txt_codigo.place(x=240, y=70)
-        self.txt_nomeM.place(x=240, y=110)
-        self.txt_nomeP.place(x=240, y=150)
-        self.txt_data.place(x=240, y=190)
-      
+        self.txt_nome.place(x=240, y=110)
+        self.txt_disciplina.place(x=240, y=150)
+        self.txt_qtd.place(x=240, y=190)
+        self.txt_form.place(x=240, y=190)
+
 
     def criar_botoes(self):
         diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -140,16 +142,20 @@ class CadastroConsultas:
 
     def limpar(self):
         self.txt_codigo.delete(0, END)
-        self.txt_nomeM.delete(0, END)
-        self.txt_nomeP.delete(0, END)
-        self.txt_data.delete(0, END)
+        self.txt_nome.delete(0, END)
+        self.txt_disciplina.delete(0, END)
+        self.txt_qtd.delete(0, END)
+        self.txt_form.delete(0, END)
+
 
     def dados(self):
         return {
             "codigo": self.txt_codigo.get(),
-            "nome": self.txt_nomeM.get(),
-            "pasciente": self.txt_nomeP.get(),
-            "data": self.txt_data.get(),
+            "nome": self.txt_nome.get(),
+            "disciplina": self.txt_disciplina.get(),
+            "quantidade": self.txt_qtd.get(),
+            "formacao": self.txt_form.get(),
+
         }
 
     def salvar(self):
@@ -208,4 +214,4 @@ class CadastroConsultas:
 
 # EXECUTAR
 if __name__ == "__main__":
-    CadastroConsultas()
+    CadastroProfessores()

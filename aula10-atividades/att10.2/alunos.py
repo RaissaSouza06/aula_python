@@ -19,7 +19,7 @@ class CadastroAlunos:
     def __init__(self):
         self.tela = Tk()
         self.tela.title("Exemplo Mongo DB")
-        self.tela.configure(bg="#195c56")
+        self.tela.configure(bg="#590e5e")
 
         self.largura = 700
         self.altura = 400
@@ -47,8 +47,8 @@ class CadastroAlunos:
     # CRIAR BANCO
   
     def conectar_banco(self):
-        self.cliente = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.db = self.cliente["escola"]
+        self.conexao = pymongo.MongoClient("mongodb+srv://raissa:230206@raissa.srv8lwg.mongodb.net/?appName=Raissa")
+        self.db = self.conexao["escola"]
         self.collection = self.db["alunos"]
 
     
@@ -60,29 +60,31 @@ class CadastroAlunos:
         self.criar_botoes()
 
     def criar_labels(self):
-        Label(self.tela,text="Cadastro de Alunos", font=("Arial", 22, "bold"), bg="#195c56", fg="white").place(x=180, y=30)
+        Label(self.tela, text="Cadastro de Alunos", font=("Arial", 22, "bold"), bg="#590e5e", fg="white").place(x=190, y=25)
+        Label(self.tela, text="Código:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=50, y=100)
+        Label(self.tela, text="Nome:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=50, y=140)
+        Label(self.tela, text="Endereço:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=50, y=180)
+        
+        Label(self.tela, text="Data Nasc.:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=420, y=140)
+        Label(self.tela, text="Telefone:", bg="#590e5e", fg="white", font=("Arial", 10, "bold")).place(x=420, y=180)
 
-        Label(self.tela, text="Código:", bg="#195c56", fg="white").place(x=130, y=100)
-        Label(self.tela, text="Nome:", bg="#195c56", fg="white").place(x=130, y=130)
-        Label(self.tela, text="Data nascimento:", bg="#195c56", fg="white").place(x=450, y=130)
-        Label(self.tela, text="Endereço:", bg="#195c56", fg="white").place(x=130, y=160)
-        Label(self.tela, text="Telefone:", bg="#195c56", fg="white").place(x=450, y=160)
-
-        self.lbl_resultado = Label(self.tela, text="", bg="#195c56", fg="white")
-        self.lbl_resultado.place(x=450, y=300)
+        self.lbl_resultado = Label(self.tela, text="", bg="#590e5e", fg="white")
+        self.lbl_resultado.place(x=50, y=220)
 
     def criar_campos(self):
-        self.txt_codigo = Entry(self.tela, width=20)
-        self.txt_nome = Entry(self.tela, width=35)
-        self.txt_data = Entry(self.tela, width=20)
-        self.txt_endereco = Entry(self.tela, width=20)
-        self.txt_tel = Entry(self.tela, width=20)
+        self.txt_codigo = Entry(self.tela, width=15, font=("Arial", 10))
+        self.txt_nome = Entry(self.tela, width=30, font=("Arial", 10))
+        self.txt_endereco = Entry(self.tela, width=30, font=("Arial", 10))
+        
+        self.txt_data = Entry(self.tela, width=18, font=("Arial", 10))
+        self.txt_tel = Entry(self.tela, width=18, font=("Arial", 10))
 
-        self.txt_codigo.place(x=190, y=100)
-        self.txt_nome.place(x=190, y=130)
-        self.txt_data.place(x=480, y=130)
-        self.txt_endereco.place(x=190, y=160)
-        self.txt_tel.place(x=480, y=160)
+        self.txt_codigo.place(x=140, y=100)
+        self.txt_nome.place(x=140, y=140)
+        self.txt_endereco.place(x=140, y=180)
+
+        self.txt_data.place(x=530, y=140)
+        self.txt_tel.place(x=530, y=180)
 
     # ICONES
     def criar_icones(self):
